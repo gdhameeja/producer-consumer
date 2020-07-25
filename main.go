@@ -32,8 +32,6 @@ func main() {
 	// create Proxy
 	proxy := entities.InitProxy(*producer1, *producer2)
 
-	// register producers with Proxy
-	regsiterProducers(proxy, producer1, producer2)
 	// create consumers
 	consumer1 := entities.ConstructConsumer(1, proxy)
 	consumer2 := entities.ConstructConsumer(2, proxy)
