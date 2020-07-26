@@ -60,6 +60,10 @@ func (p Proxy) WriteWidgets(conId int, in chan <- Widget) {
 	log.Print("Proxy: number of widgets to be generated: ", numWidgets)
 	log.Print("Proxy: current number of widgets in channel for consumer: ", conId, len(in))
 	for i := 0; i < numWidgets; i++ {
+		if len(in) >= maxWidgetsPerProducer {
+			break
+			log.Print("Proxy: maximum channel capacity reached for consumer: ", conId)
+		}
 		widget := p.getWidget()
 		in <- widget
 		log.Print("Wdiget successfully writen to channel: ", conId)
