@@ -15,6 +15,7 @@ package main
 
 import (
 	"gdhameeja/producerconsumer/entities"
+	"fmt"
 )
 
 const (
@@ -26,11 +27,12 @@ const (
 // main entry point of the program
 func main() {
 	// create the producers 
-	producer1 := new(entities.Producer)
-	producer2 := new(entities.Producer)
+	fmt.Println(entities.Producer{})
+	producer1 := entities.Producer{ Id: 1 }
+	producer2 := entities.Producer{ Id: 2 }
 
 	// create Proxy
-	proxy := entities.InitProxy(*producer1, *producer2)
+	proxy := entities.InitProxy(producer1, producer2)
 
 	// create consumers
 	consumer1 := entities.ConstructConsumer(1, proxy)

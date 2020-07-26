@@ -37,8 +37,7 @@ func (c Consumer) RequestWidgets() {
 		c.flush()
 	}
 	// TODO: randomWidgetsNum should be a random number 1 and 3
-	randomWidgetsNum := 3
-	c.proxy.WriteWidgets(randomWidgetsNum, c.id, c.ch)
+	c.proxy.WriteWidgets(c.id, c.ch)
 	for widget := range c.ch {
 		c.widgets = append(c.widgets, widget)
 	}

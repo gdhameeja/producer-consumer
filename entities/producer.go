@@ -1,5 +1,6 @@
 package entities
 
+import "log"
 
 const (
 	numWidgetsLow = 1
@@ -8,9 +9,10 @@ const (
 
 // producer struct. The entity which produces the message.
 type Producer struct {
-	id string
-	numWidgets int
+	Id int
 }
 
-func (p Producer) CreateWidget(channel chan Widget) {
+func (p Producer) ProvideWidget() Widget {
+	log.Print("Widget created by producer: ", p.Id)
+	return Widget {}
 }
