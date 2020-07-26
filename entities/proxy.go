@@ -13,15 +13,16 @@ type Proxy struct {
 
 // create a new proxy and register all input producers with it
 func InitProxy(producers... Producer) Proxy {
-	proxy := new(Proxy)
+	proxy := Proxy{ producerMap: make(map[Producer]int) }
 	for _, producer := range producers {
 		proxy.producerMap[producer] = 0
 	}
-	return *proxy
+	return proxy
 }
 
 // get a single widget from appropriate producer
 func (p Proxy) getWidget() (Widget, error) {
+	// TODO: get real widget from prodcuer
 	return Widget{}, nil
 }
 

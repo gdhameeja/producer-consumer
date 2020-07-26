@@ -37,16 +37,15 @@ func main() {
 	consumer2 := entities.ConstructConsumer(2, proxy)
 	consumer3 := entities.ConstructConsumer(3, proxy)
 
-	// exitChannel is the channel which blocks the main goroutine from exiting, since it is never written to
-	exitChannel := make(chan bool)	
 	// launch the consumers in action forever
-	launchConsumers(exitChannel, consumer1, consumer2, consumer3)
-	<- exitChannel
-	close(exitChannel)
+	launchConsumers(consumer1, consumer2, consumer3)
+	// never let the main goroutine end
+	for {
+	}
 }
 
 
-func launchConsumers(exit chan <- bool, consumers... entities.Consumer) {
+func launchConsumers(consumers... entities.Consumer) {
 	for _, consumer := range consumers {
 		go consumer.Start()
 	}
