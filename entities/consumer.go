@@ -34,9 +34,8 @@ func ConstructConsumer(id int, proxy Proxy) Consumer {
 // start the consumer to work, called by main
 func (c Consumer) Start() {
 	for {
-		log.Print("Request from consumer: ", c.id)
+		log.Print("Consumer: Request initiated from consumer: ", c.id)
 		c.RequestWidgets()
-		log.Print("Consumer: comes here")
 	}
 }
 
@@ -58,6 +57,6 @@ func (c Consumer) RequestWidgets() {
 func (c Consumer) flush() {
 	for i := 0; i < MAX_NUM_WIDGETS; i++ {
 		<- c.ch
-		log.Print("Consumer: Recieving from channel consumer: ", c.id)
+		log.Print("Consumer: Recieving from channel assigned to consumer: ", c.id)
 	}
 }
