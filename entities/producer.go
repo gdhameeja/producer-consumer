@@ -13,6 +13,6 @@ type Producer struct {
 }
 
 func (p Producer) ProvideWidget() Widget {
-	log.Print("Widget created by producer: ", p.Id)
+	log.Print("Producer: widget created by producer: ", p.Id)
 	return Widget {}
 }

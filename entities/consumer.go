@@ -1,15 +1,24 @@
 package entities
 
-import "time"
+import (
+	"time"
+	"math/rand"
+	"log"
+	"sync"
+)
 
-const MAX_NUM_WIDGETS = 10
+const (
+	MAX_NUM_WIDGETS = 10
+	minConsumerSleep = 1
+	maxConsumerSleep = 5
+)
 
 // consumer struct. The entity which processes/consumes the widget.
 type Consumer struct {
 	id int
 	ch chan Widget
 	proxy Proxy
-	widgets []Widget
+	mu sync.Mutex
 }
 
 // constructor function to provide a Consumer with buffered channel
@@ -25,25 +34,30 @@ func ConstructConsumer(id int, proxy Proxy) Consumer {
 // start the consumer to work, called by main
 func (c Consumer) Start() {
 	for {
+		log.Print("Request from consumer: ", c.id)
 		c.RequestWidgets()
+		log.Print("Consumer: comes here")
 	}
 }
 
 func (c Consumer) RequestWidgets() {
 	// TODO: randomSeconds should have a random value between 1 and 5
-	var randomSeconds time.Duration = 5  
-	if len(c.widgets) >= 10 {
-		time.Sleep(randomSeconds * time.Second)
+	if len(c.ch) >= MAX_NUM_WIDGETS {
+		randomSeconds := rand.Intn((maxConsumerSleep - minConsumerSleep + 1) + minConsumerSleep)
+		log.Print("Consumer: putting to sleep consumer: ", c.id)
+		time.Sleep(time.Duration(randomSeconds) * time.Second)
 		c.flush()
 	}
-	// TODO: randomWidgetsNum should be a random number 1 and 3
+
+	c.mu.Lock()
 	c.proxy.WriteWidgets(c.id, c.ch)
-	for widget := range c.ch {
-		c.widgets = append(c.widgets, widget)
-	}
+	c.mu.Unlock()
 }
 
 // reset consumer to initial state (using widgets)
 func (c Consumer) flush() {
-	c.widgets = nil
+	for i := 0; i < MAX_NUM_WIDGETS; i++ {
+		<- c.ch
+		log.Print("Consumer: Recieving from channel consumer: ", c.id)
+	}
 }

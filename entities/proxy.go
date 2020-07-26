@@ -55,7 +55,10 @@ func (p Proxy) getProducer() Producer {
 // the main entry point that each consumer will call to receive widgets.
 // connId is the id of the consumer. It is just used for logging purposes.
 func (p Proxy) WriteWidgets(conId int, in chan <- Widget) {
-	numWidgets := rand.Intn((maxNumWidgets - minNumWidgets) + minNumWidgets)
+	log.Print("Proxy: received request to provide widget to consumer: ", conId)
+	numWidgets := rand.Intn((maxNumWidgets - minNumWidgets + 1) + minNumWidgets)
+	log.Print("Proxy: number of widgets to be generated: ", numWidgets)
+	log.Print("Proxy: current number of widgets in channel for consumer: ", conId, len(in))
 	for i := 0; i < numWidgets; i++ {
 		widget := p.getWidget()
 		in <- widget
