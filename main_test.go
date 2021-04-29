@@ -8,4 +8,5 @@ func TestMain(t *testing.T) {
 }
 
 func TestMainPass(t *testing.T) {
+	t.Error("Something failed")
 }
