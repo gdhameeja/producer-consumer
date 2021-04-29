@@ -7,6 +7,5 @@ import (
 func TestMain(t *testing.T) {
 }
 
-func TestMainFail(t *testing.T) {
-	t.Error("This is supposed to fail")
+func TestMainPass(t *testing.T) {
 }
